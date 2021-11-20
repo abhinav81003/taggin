@@ -23,13 +23,13 @@
 }
 
 .hash { 
-  position: fixed;
+  position: relative;
 
   font-family: 'Single Day', cursive;
   font-style: normal;
   font-weight: normal;
   font-size: 20vw;
-  margin-left: 36.9vw;
+  margin-left: -6.7vw;
   margin-top: -8.3vw;
   color: #DBCDF0;
 }

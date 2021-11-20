@@ -5,8 +5,12 @@ function App() {
     <div className="App">
       <div className="hashlogo">#</div>
       <div className="logocontainer">
-        <div className="taggin">taggin'</div>
-        <div className="hash">#</div>
+        <p className="taggin">
+          <p className="text">taggin'</p>
+        </p>
+        <p className="hash">
+          <p>#</p>
+        </p>
       </div>
       <div className="tagline">let your interests find friends</div>
       <div className="waitlist Rectangle join">join our waitlist</div>
