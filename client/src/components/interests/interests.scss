@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed&family=Shrikhand&family=Single+Day&display=swap');
+
+.Interests {
+    margin: auto;
+}
+
+.parent {
+    margin-left: -100vw;
+    text-align: left;
+    height: 30px;
+}
+.child {
+    animation: left-to-right 6s infinite ease-in-out; 
+    font-family: 'Single Day', cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 5vh;
+    color: #DBCDF0;
+    margin-top: -2vhpx;
+}
+
+@keyframes left-to-right {
+    100% {
+        transform: translateX(150%);
+    }
+}

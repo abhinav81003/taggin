@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -33,6 +34,7 @@
   margin-left: -6.4vh;
   margin-top: -8.2vh;
   color: #DBCDF0;
+  height: 22vh;
 }
 
 .tagline{
@@ -53,7 +55,6 @@ margin-right: auto;
 filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
 }
-
 
 .Rectangle {
 
@@ -105,6 +106,27 @@ color: #FFFFFF;
   transition: all 0.5s;
   padding: 0;
   border: 0;
+
+}
+
+.waitlist {
+  align-self: flex-end;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-name: bounce;
+  animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
+  margin-top: 5vh;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1,1)      translateY(0); }
+  10%  { transform: scale(1.01,.99)   translateY(0); }
+  30%  { transform: scale(.99,1.01)   translateY(-3px); }
+  50%  { transform: scale(1.01,.99) translateY(0); }
+  57%  { transform: scale(1,1)      translateY(-2px); }
+  64%  { transform: scale(1,1)      translateY(0); }
+  100% { transform: scale(1,1)      translateY(0); }
 }
 
 .inputEmail{
@@ -126,6 +148,9 @@ color: #FFFFFF;
   outline: none;
 }
 
+.scrollingText {
+  display: flex;
+}
 
 .button:hover {
   background-image: linear-gradient(to right, #BEA0EB , #d6cde4);

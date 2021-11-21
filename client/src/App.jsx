@@ -1,5 +1,9 @@
 import './App.css';
 import Header from './components/header/Header';
+import Interests from './components/interests/Interests';
+import Interestsfast from './components/interests-fast/Interests-fast';
+import Interestsslow from './components/interests-slow/Interests-slow';
+
 import {useState} from "react";
 import Axios from 'axios';
 
@@ -25,8 +29,14 @@ function App() {
           <button className="button waitlist"><span>join our waitlist</span></button>
         </div>
       </div>
+      <div className="scrollingTexts">
+        <Interestsfast text="#acryllicpainting #chess #bmx #discord #pickupsports #soccer #rockclimbing #thrifting"/>
+        <Interestsslow text="#collecting #jazzmusic #gardening #esports #videogames #amongus #backpacking #fishing"/>
+        <Interests text=""/>
+        <Interests text="#synchro #crypto #defi #fintech #entrepreneurship #idk #cooking #veganism"/>
+      </div>
       <div className = "footer">
-        <input className="inputEmail" placeholder="Enter Email"
+        <input className="inputEmail" placeholder="enter email"
               onChange = {
                 (event) => {
                   setEmail(event.target.value);
