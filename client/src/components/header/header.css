@@ -1,0 +1,14 @@
+.Header {
+    width: 0;
+    padding-left: 1vw;
+    top: 0px;
+    
+    font-family: 'Single Day', cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 300%;
+    
+    /* identical to box height */
+    
+    color: #DBCDF0;
+}

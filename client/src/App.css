@@ -4,54 +4,38 @@
   text-align: center;
 }
 
-.logocontainer {
-  margin-top: 10vh;
+.logo {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+}
+
+.tagginlogo {
+  justify-content: center;
+  display: flex;
 }
 
 .taggin {
   font-family: 'Shrikhand', cursive;
-  font-style: normal;
-  font-weight: normal;
   font-size: 10vw;
-  
   z-index: 1;
-
   color: #000000;
-
+  height: 10vw;
 }
 
-.hash { 
-  position: relative;
-
+.logohash { 
   font-family: 'Single Day', cursive;
   font-style: normal;
   font-weight: normal;
   font-size: 20vw;
-  margin-left: -6.7vw;
-  margin-top: -8.3vw;
-  color: #DBCDF0;
-}
 
-
-.hashlogo {
-  width: 0;
-  padding-left: 1vw;
-  top: 0px;
-
-  font-family: 'Single Day', cursive;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 300%;
-
-  /* identical to box height */
-
+  margin-left: -6.8vw;
+  margin-top: -8.2vw;
   color: #DBCDF0;
 }
 
 .tagline{
-  
+  position: relative;
   font-family: 'Saira Condensed', sans-serif;
   font-style: normal;
   font-weight: normal;

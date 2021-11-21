@@ -1,19 +1,24 @@
 import './App.css';
+import Header from './components/header/Header';
 
 function App() {
   return (
     <div className="App">
-      <div className="hashlogo">#</div>
-      <div className="logocontainer">
-        <p className="taggin">
-          <p className="text">taggin'</p>
-        </p>
-        <p className="hash">
-          <p>#</p>
-        </p>
+      <Header/>
+      <div className="logo">
+        <div className="section">
+          <div className="tagginlogo">
+            <div className="taggin">taggin'</div>
+            <div className="logohash">#</div>
+          </div>
+        </div>
+        <div className="section">
+          <div className="tagline">let your interests find friends</div>
+        </div>
+        <div className="section">
+          <div className="waitlist Rectangle join">join our waitlist</div>
+        </div>
       </div>
-      <div className="tagline">let your interests find friends</div>
-      <div className="waitlist Rectangle join">join our waitlist</div>
     </div>
   );
 }
