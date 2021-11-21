@@ -11,14 +11,14 @@
 }
 
 .tagginlogo {
+  margin-top: 15vh;
   justify-content: center;
   display: flex;
-
 }
 
 .taggin {
   font-family: 'Shrikhand', cursive;
-  font-size: 10vw;
+  font-size: 9vh;
   z-index: 1;
   color: #000000;
   height: 10vw;
@@ -28,10 +28,10 @@
   font-family: 'Single Day', cursive;
   font-style: normal;
   font-weight: normal;
-  font-size: 20vw;
+  font-size: 19vh;
 
-  margin-left: -6.8vw;
-  margin-top: -8.2vw;
+  margin-left: -6.4vh;
+  margin-top: -8.2vh;
   color: #DBCDF0;
 }
 
@@ -58,7 +58,7 @@ filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 .Rectangle {
 
 width: 187px;
-height: 54px;
+height: 44px;
 left: 0px;
 top: 0px;
 
@@ -71,8 +71,6 @@ border-radius: 20px;
 
 width: 151px;
 height: 44px;
-left: calc(50% - 151px/2 + 1px);
-top: calc(50% - 44px/2 - 8.5px);
 
 font-family: 'Saira Condensed', sans-serif;
 font-style: normal;
@@ -87,24 +85,76 @@ color: #FFFFFF;
 .footer{
   margin-top: 10rem;
 }
-.submitButton{
-  width: 3.8rem;
-  border-radius: 0.4rem;
-  background-color: #BEA0EB;
-  font-family: 'Saira Condensed', sans-serif;
-  color:white;
-  margin-left: 1rem;
-  height: 2.3rem;
+
+.button{
+  width: 151px;
+  height: 44px;
   
-}
-.inputEmail{
+  background: #BEA0EB;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  border-color: transparent;
+
   font-family: 'Saira Condensed', sans-serif;
-  height: 2.3rem;
-  width: 10rem;
-  border-radius: 0.5rem;
-  border-width: 0.02rem;
+  font-style: normal;
+  font-weight: normal;
+  color: white;
+  font-size: 140%;
+  line-height: 20px;
+
+  transition: all 0.5s;
+  padding: 0;
+  border: 0;
 }
 
+.inputEmail{
+  width: 139px;
+  height: 38px;
+  left: 0px;
+  top: 0px;
+  
+  background:white;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  border-color: #BEA0EB;
+
+  font-family: 'Saira Condensed', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 140%;
+  line-height: 20px;
+  outline: none;
+}
+
+
+.button:hover {
+  background-image: linear-gradient(to right, #BEA0EB , #d6cde4);
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 15px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
 /*  */
 
 /* position: absolute;

@@ -22,7 +22,7 @@ function App() {
           <div className="tagline">let your interests find friends</div>
         </div>
         <div className="section">
-          <div className="waitlist Rectangle join">join our waitlist</div>
+          <button className="button waitlist"><span>join our waitlist</span></button>
         </div>
       </div>
       <div className = "footer">
@@ -32,7 +32,7 @@ function App() {
                   setEmail(event.target.value);
                 }}
         />
-        <button className="submitButton" onClick={()=> submitEmail(email)}> Submit </button>
+        <button className="button submit" onClick={()=> submitEmail(email)}><span> submit</span> </button>
       </div>
     </div>
   );
