@@ -15,15 +15,15 @@ function App() {
       <div className="logo">
         <div className="section">
           <div className="tagginlogo">
-            <div className="taggin">taggin'</div>
             <div className="logohash">#</div>
+            <div className="taggin">taggin'</div>
           </div>
         </div>
         <div className="section">
-          <div className="tagline">let your interests find friends</div>
+          <div className="tagline">find events based on your interests</div>
         </div>
         <div className="section">
-          <button className="button waitlist"><span>join our waitlist</span></button>
+          <button className="button waitlist"><span>join USC private beta</span></button>
         </div>
       </div>
       <div className="scrollingTexts">

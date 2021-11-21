@@ -6,7 +6,11 @@
 
   height: 100vh;
 
-  background-image: linear-gradient(white, #f5effd );
+  background-image: linear-gradient(rgb(194, 79, 219), rgb(252, 223, 255));
+  background-position-x: center;
+  background-position-y: 0;
+  background-size: 130vh;
+  
 }
 
 .logo {
@@ -23,25 +27,37 @@
 
 .taggin {
   font-family: 'Shrikhand', cursive;
-  font-size: 9vh;
+  font-size: 10vh;
   z-index: 1;
-  color: #000000;
+  color: white;
   height: 10vw;
+
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-name: bounce;
+  animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
 }
 
 .logohash { 
   font-family: 'Single Day', cursive;
   font-style: normal;
   font-weight: normal;
-  font-size: 19vh;
+  font-size: 39vh;
 
-  margin-left: -6.4vh;
-  margin-top: -8.2vh;
-  color: #DBCDF0;
-  height: 22vh;
+  margin-right: -14.5vh; 
+  margin-top: -17.2vh;
+  background-image: linear-gradient(-45deg, rgb(236, 70, 214),#8757cf );
+  background-size: 5vh;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  height: 40vh;
 
-  animation: spin 4s linear infinite;
-  transform: rotate(-5deg);
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-name: bounce;
+  animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
 }
 
 @keyframes spin { 
@@ -55,66 +71,39 @@
   font-family: 'Saira Condensed', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 140%;
-  line-height: 20px;
+  font-size: 5vh;
+  line-height: 30px;
   
-  color: #DBCDF0;
-}
-
-.waitlist {
-margin-top: 10vh;
-margin-left: auto;
-margin-right: auto;
-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
-}
-
-.Rectangle {
-
-width: 187px;
-height: 44px;
-left: 0px;
-top: 0px;
-
-background: #BEA0EB;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 20px;
-}
-
-.join{
-
-width: 151px;
-height: 44px;
-
-font-family: 'Saira Condensed', sans-serif;
-font-style: normal;
-font-weight: normal;
-font-size: 130%;
-line-height: 44px;
-/* identical to box height */
-
-color: #FFFFFF;
+  color: #ffffff;
 }
 
 .footer{
-  margin-top: 5vh;
+  display: flex;
+  flex-direction: row;
+  width: 70vw;
+  max-width: 400px;
+  margin: auto;
   height: 60px;
+  padding-top: 3vh;
 }
 
 .button{
-  width: 151px;
+  width: 30%;
   height: 44px;
   
-  background: #BEA0EB;
+  background-image: linear-gradient(-45deg, rgb(236, 70, 214),#8757cf );
+  background-size: 10vh;
+  background-position: center;
+  animation: gradient 15s ease infinite;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 20px;
   border-color: transparent;
 
-  font-family: 'Saira Condensed', sans-serif;
+  font-family: 'Shrikhand', cursive;
   font-style: normal;
   font-weight: normal;
   color: white;
-  font-size: 140%;
+  font-size: 150%;
   line-height: 20px;
 
   transition: all 0.5s;
@@ -123,13 +112,26 @@ color: #FFFFFF;
 
 }
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.submit {
+  margin-left: 5vh;
+}
+
 .waitlist {
-  align-self: flex-end;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  transform-origin: bottom;
-  animation-name: bounce;
-  animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
+  width: 70%;
+  max-width: 400px;
+  animation: gradient 10s ease infinite;
   margin-top: 5vh;
 }
 
@@ -144,8 +146,8 @@ color: #FFFFFF;
 }
 
 .inputEmail{
-  width: 139px;
-  height: 38px;
+  width: 60%;
+  height: 44px;
   left: 0px;
   top: 0px;
   
@@ -159,9 +161,11 @@ color: #FFFFFF;
   font-weight: normal;
   font-size: 140%;
   line-height: 20px;
+  color: grey;
   outline: none;
 
-  margin-right: 2vh;
+  padding-left: 10px;
+  border: 0;
 }
 
 .scrollingText {
@@ -169,7 +173,12 @@ color: #FFFFFF;
 }
 
 .button:hover {
-  background-image: linear-gradient(to right, #BEA0EB , #d6cde4);
+  background-image: linear-gradient(-45deg, rgb(236, 70, 214),#8757cf );
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-name: bounce;
+  animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
 }
 
 .button span {

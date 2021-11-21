@@ -14,7 +14,9 @@
     
     /* identical to box height */
     
-    color: #DBCDF0;
+    background-position: center;
+    background-size: 100vh;
+    color: #ffffff;
 
 }
 
@@ -22,6 +24,9 @@
     margin-left: 2vh;
     width: 10%;
     font-size: 8vh;
+
+    animation: spin 4s linear infinite;
+    transform: rotate(-5deg);
 }
  
 .right {
@@ -36,16 +41,19 @@
     font-weight: normal;
     line-height: 20px;
 
-    margin-right: 2vh;
-    margin-top: 2vh;
 }
 
-.contact {
-    margin-left: 10px;
+.join {
+    width: 15%;
+    max-width: 100px;
+    margin-right: 2vh;
 }
 
 .FAQ {
     padding-left: 10px;
+    margin-top: 1.5vh;
+    margin-right: 2vh;
+    font-size: 5vh;
 }
 
 

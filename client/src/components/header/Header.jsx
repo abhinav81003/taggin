@@ -5,8 +5,8 @@ export default function Header() {
         <div className="Header" id="header">
             <div className="left">#</div>
             <div className="right">
-                <a className="Contact">contact</a>
                 <a className="FAQ">FAQ</a>
+                <button className="button join"><span>join</span></button>
             </div>
         </div>
     )
