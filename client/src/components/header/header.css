@@ -1,14 +1,51 @@
 .Header {
-    width: 0;
-    padding-left: 1vw;
+    display: flex;
+    flex-direction: row;
+    flex: wrap;
+    align-content:space-between;
+
+    width: 100%;
     top: 0px;
     
     font-family: 'Single Day', cursive;
     font-style: normal;
     font-weight: normal;
-    font-size: 300%;
+    font-size: 3vh;
     
     /* identical to box height */
     
     color: #DBCDF0;
+
 }
+
+.left {
+    margin-left: 2vh;
+    width: 10%;
+    font-size: 8vh;
+}
+ 
+.right {
+    width: 90%;
+    align-self: center;
+    justify-content: right;
+    height: 5vh;
+
+    display: flex;
+    font-family: 'Saira Condensed', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 20px;
+
+    margin-right: 2vh;
+    margin-top: 2vh;
+}
+
+.contact {
+    margin-left: 10px;
+}
+
+.FAQ {
+    padding-left: 10px;
+}
+
+

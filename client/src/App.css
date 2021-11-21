@@ -35,6 +35,15 @@
   margin-top: -8.2vh;
   color: #DBCDF0;
   height: 22vh;
+
+  animation: spin 4s linear infinite;
+  transform: rotate(-5deg);
+}
+
+@keyframes spin { 
+  50% { 
+      transform:rotate(10deg); 
+  } 
 }
 
 .tagline{
@@ -84,7 +93,8 @@ color: #FFFFFF;
 }
 
 .footer{
-  margin-top: 10rem;
+  margin-top: 5vh;
+  height: 60px;
 }
 
 .button{
@@ -138,7 +148,7 @@ color: #FFFFFF;
   background:white;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 20px;
-  border-color: #BEA0EB;
+  border-color: transparent;
 
   font-family: 'Saira Condensed', sans-serif;
   font-style: normal;
@@ -146,6 +156,8 @@ color: #FFFFFF;
   font-size: 140%;
   line-height: 20px;
   outline: none;
+
+  margin-right: 2vh;
 }
 
 .scrollingText {

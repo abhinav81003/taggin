@@ -1,8 +1,5 @@
 import './App.css';
 import Header from './components/header/Header';
-import Interests from './components/interests/Interests';
-import Interestsfast from './components/interests-fast/Interests-fast';
-import Interestsslow from './components/interests-slow/Interests-slow';
 
 import {useState} from "react";
 import Axios from 'axios';
@@ -30,10 +27,10 @@ function App() {
         </div>
       </div>
       <div className="scrollingTexts">
-        <Interestsfast text="#acryllicpainting #chess #bmx #discord #pickupsports #soccer #rockclimbing #thrifting"/>
+        {/* <Interestsfast text="#acryllicpainting #chess #bmx #discord #pickupsports #soccer #rockclimbing #thrifting"/>
         <Interestsslow text="#collecting #jazzmusic #gardening #esports #videogames #amongus #backpacking #fishing"/>
         <Interests text=""/>
-        <Interests text="#synchro #crypto #defi #fintech #entrepreneurship #idk #cooking #veganism"/>
+        <Interests text="#synchro #crypto #defi #fintech #entrepreneurship #idk #cooking #veganism"/> */}
       </div>
       <div className = "footer">
         <input className="inputEmail" placeholder="enter email"
