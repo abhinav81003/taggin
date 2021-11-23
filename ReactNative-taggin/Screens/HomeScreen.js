@@ -8,10 +8,10 @@ import colors from '../assets/colors';
 import Slider from '@react-native-community/slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
-import MapView from 'react-native-maps';
+import MapView, { Callout } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 
-const thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
+const thoughts = [ { "title": "Village dining sucks yuvhycvftvhfgv yfvdtyfav fyvsadfyasdf fas df ads fda ", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
 
 var mapStyles = [
     {
@@ -113,33 +113,50 @@ var mapStyles = [
     {}
 ]
 
-const thoughts = [ { title: "Village dining sucks", description: "#usc", latitude: 34.0256, longitude: -118.593 }]
+
 const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
+    const [liked, setLiked] = useState(false);
     const styles = StyleSheet.create({
         map: {width: width,
         height: height,
+        },
+        thought: {
+            borderRadius: 10,
+            minHeight: 20,
+            maxWidth: 200,
+            backgroundColor: "white"
         }
+
     })
     const BottomTabs = createBottomTabNavigator();
     return ( 
         <View>
-            <SafeAreaView>
-                <Text>hi</Text>
-            </SafeAreaView>
+           
              <MapView style={styles.map} region={{longitude: -118.2850,
                         latitude: 34.0256,
                         longitudeDelta: 0.02,
                         latitudeDelta: 0.02}} 
                         provider={MapView.PROVIDER_GOOGLE}
                         customMapStyle={mapStyles}>
-           
-            {thoughts.map((thought,index) => (
-            <MapView.Marker key={index}
+            {thoughts.map((thought,index) => {
+            return(
+            <Marker key={index}
             coordinate={{latitude: parseFloat(thought.latitude),
-            longitude: parseFloat(thought.longitude)}}
-            description = {thought.title + " " + thought.description } />
-          ))}
+            longitude: parseFloat(thought.longitude)}} >  
+                <Callout tooltip >
+                    <View style= {{zIndex: 1}}>
+                    <View  style={styles.thought}>
+                        <Text> {thought.title +  " " + thought.description}  </Text>
+                    </View>
+                    <TouchableOpacity onPress= { ()=>  { console.log("Hi"); setLiked(!liked)}} style={{ width: 10, height : 10, backgroundColor: liked? "red" : "white" }}>
+
+                    </TouchableOpacity>
+                    </View>
+                </Callout>
+            </Marker>
+            );})}
+
             </MapView>
         </View>
      );
