@@ -16,7 +16,7 @@ const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
     const styles = StyleSheet.create({
         map: {width: width,
-        height: height/2, 
+        height: height/3, 
         }
     })
     const BottomTabs = createBottomTabNavigator();
