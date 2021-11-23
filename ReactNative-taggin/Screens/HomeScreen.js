@@ -10,20 +10,7 @@ import { useDeviceOrientation, useDimensions } from '@react-native-community/hoo
 import MapView from 'react-native-maps';
 import { Marker, Callout, Circle, CalloutSubview} from 'react-native-maps';
 import axios from 'axios';
-
-// import Geolocation from 'react-native-geolocation-service';
-
-// RNLocation.configure({
-//     distanceFilter: 5.0
-// })
-   
-// RNLocation.requestPermission({
-//     ios: "whenInUse",
-//     android: {
-//       detail: "coarse"
-//     }
-// })
-
+import * as Location from 'expo-location';
   
 
 var mapStyles = [
@@ -184,12 +171,34 @@ const Home = ({navigation}) => {
             borderRadius: 50
         }
     })
+    //location getting
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
+    var text = "Waiting"
+      if (errorMsg) {
+        text = errorMsg;
+      } else if (location) {
+        text = JSON.stringify(location);
+      }
+    //force updating the page
+
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //post stuff
     const [posts,setPosts] = useState([{}]);
-    var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
-   
+    //let thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ];
     //refreshing the page
+    const [thoughts,setThoughts] = useState([])
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
@@ -200,7 +209,15 @@ const Home = ({navigation}) => {
       wait(2000).then(() => setRefreshing(false));
       }, []);
     useEffect(() => {
-        axios.get('https://fierce-mountain-79115.herokuapp.com/posts');
+        axios.get('https://fierce-mountain-79115.herokuapp.com/posts')
+        .then( function(response){
+            console.log(response.data);
+            setThoughts(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        }) ;
     })
     const handleRefresh = () => {
         onRefresh();
@@ -215,9 +232,10 @@ const Home = ({navigation}) => {
 
 
     return ( 
+    
         <View>
-             <MapView style={styles.map} region={{longitude: -118.2850,
-                        latitude: 34.0256,
+             <MapView style={styles.map} region={{longitude: location != null ? location.coords.longitude: 0,
+                        latitude: location != null ? location.coords.latitude: 0,
                         longitudeDelta: 0.02,
                         latitudeDelta: 0.02}} 
                         provider={MapView.PROVIDER_GOOGLE}
@@ -227,7 +245,6 @@ const Home = ({navigation}) => {
             return(
             <View key={index}>
             <Marker 
-                onPress = { () => {HandleMarkerPress(index);}}
                 coordinate={{latitude: parseFloat(thought.latitude),
                 longitude: parseFloat(thought.longitude)}}>
                 <Callout  onPress={()=> { setLiked(!liked); forceUpdate();}} >

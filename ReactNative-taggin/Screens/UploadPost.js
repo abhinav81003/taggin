@@ -2,14 +2,14 @@ import React, {useState, useEffect, useReducer} from 'react';
 import { SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable,Button } from 'react-native';
 import axios from 'axios';
 import colors from '../assets/colors';
-
+import * as Location from 'expo-location';
 
 const Profile = ({navigation}) => {
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //all the variables about data to be posted
     const [title, setTitle] =useState("");
     const [description, setDescription] = useState("");
     const [userID,setUserID] = useState(""); //fetch from user's data
-
     //temporary user selection
     const users = ["monkeysnest", "danielheeee", "smellysocks"]
     const [selectedUser, setSelectedUser] = useState([false,false,false])
@@ -23,7 +23,6 @@ const Profile = ({navigation}) => {
     //tags and selecting them
     const tags = ["#USC", "#Parkside", "#CSMajor"] //change this to fetching from the users data
     const [selectedTags, setSelectedTags] = useState([false,false,false])
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const HandleSelectingTag = (index) => {
         var selections = selectedTags;
         selections[index] = !selections[index];
@@ -31,20 +30,41 @@ const Profile = ({navigation}) => {
         setDescription(tags[index])
         forceUpdate();
     }
-
+    //getting location
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
     //for the upload button on the top right
+    const HandleUpload = () => {
+        const latitude = location!= null? location.coords.latitude : 0;
+        const longitude = location!= null? location.coords.longitude : 0;
+        axios.post("https://fierce-mountain-79115.herokuapp.com/uploadPost",
+        {title: title, userID: userID, description: description, latitude: latitude, longitude: longitude})
+        .then(function() {
+            navigation.navigate('Home');
+        })
+        .catch(function () {
+            alert("Could not post at the moment. Please try again");
+        });
+    }
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerRight: ()=> (
-              <Button onPress ={() => {HandleUpload();}} title= {"Upload"}>
-                  
-              </Button>
+              <Button onPress ={() => {HandleUpload();}} title= {"Upload"}/>
           ),
         });
     })
-    const HandleUpload = () => {
-
-    }
+    
     return ( 
         <View style={styles.container}>
             <Text  style={styles.heading}>
@@ -52,6 +72,7 @@ const Profile = ({navigation}) => {
             <TextInput style = {styles.inputBox}
                 placeholder = "Your thought"
                 multiline = {true}
+                onChangeText = { (text)=> setTitle(text)}
             />
             <View style={styles.tagBar}>
                 <Text style={styles.tagsTextHead}>
