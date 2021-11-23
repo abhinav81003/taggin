@@ -8,10 +8,17 @@ import colors from '../assets/colors';
 import Slider from '@react-native-community/slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
+<<<<<<< HEAD
 import MapView from 'react-native-maps';
 import { Marker, Callout, Circle} from 'react-native-maps';
 
 var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
+=======
+import MapView, { Callout } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+
+const thoughts = [ { "title": "Village dining sucks yuvhycvftvhfgv yfvdtyfav fyvsadfyasdf fas df ads fda ", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
+>>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
 
 var mapStyles = [
     {
@@ -113,6 +120,7 @@ var mapStyles = [
     {}
 ]
 
+<<<<<<< HEAD
 const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
     const [liked,setLiked] = useState(false);
@@ -129,17 +137,38 @@ const Home = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center'
+=======
+
+const Home = ({navigation}) => {
+    const {width, height} = useDimensions().window;
+    const [liked, setLiked] = useState(false);
+    const styles = StyleSheet.create({
+        map: {width: width,
+        height: height,
+        },
+        thought: {
+            borderRadius: 10,
+            minHeight: 20,
+            maxWidth: 200,
+            backgroundColor: "white"
+>>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
         }
+
     })
     const BottomTabs = createBottomTabNavigator();
     return ( 
         <View>
+<<<<<<< HEAD
+=======
+           
+>>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
              <MapView style={styles.map} region={{longitude: -118.2850,
                         latitude: 34.0256,
                         longitudeDelta: 0.02,
                         latitudeDelta: 0.02}} 
                         provider={MapView.PROVIDER_GOOGLE}
                         customMapStyle={mapStyles}>
+<<<<<<< HEAD
            
             {thoughts.map((thought,index) => {
             return(
@@ -163,6 +192,26 @@ const Home = ({navigation}) => {
                 />
             </View>
             );})}
+=======
+            {thoughts.map((thought,index) => {
+            return(
+            <Marker key={index}
+            coordinate={{latitude: parseFloat(thought.latitude),
+            longitude: parseFloat(thought.longitude)}} >  
+                <Callout tooltip >
+                    <View style= {{zIndex: 1}}>
+                    <View  style={styles.thought}>
+                        <Text> {thought.title +  " " + thought.description}  </Text>
+                    </View>
+                    <TouchableOpacity onPress= { ()=>  { console.log("Hi"); setLiked(!liked)}} style={{ width: 10, height : 10, backgroundColor: liked? "red" : "white" }}>
+
+                    </TouchableOpacity>
+                    </View>
+                </Callout>
+            </Marker>
+            );})}
+
+>>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
             </MapView>
         </View>
      );
