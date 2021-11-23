@@ -9,9 +9,9 @@ import Slider from '@react-native-community/slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
 import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import { Marker, Callout, Circle} from 'react-native-maps';
 
-const thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
+var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
 
 var mapStyles = [
     {
@@ -113,20 +113,27 @@ var mapStyles = [
     {}
 ]
 
-const thoughts = [ { title: "Village dining sucks", description: "#usc", latitude: 34.0256, longitude: -118.593 }]
 const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
+    const [liked,setLiked] = useState(false);
     const styles = StyleSheet.create({
-        map: {width: width,
-        height: height,
+        map: {
+            width: width,
+            height: height,
+        },
+        thought: {
+            borderRadius: 10,
+            minHeight: 80,
+            maxWidth: 300,
+            padding: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center'
         }
     })
     const BottomTabs = createBottomTabNavigator();
     return ( 
         <View>
-            <SafeAreaView>
-                <Text>hi</Text>
-            </SafeAreaView>
              <MapView style={styles.map} region={{longitude: -118.2850,
                         latitude: 34.0256,
                         longitudeDelta: 0.02,
@@ -134,12 +141,28 @@ const Home = ({navigation}) => {
                         provider={MapView.PROVIDER_GOOGLE}
                         customMapStyle={mapStyles}>
            
-            {thoughts.map((thought,index) => (
-            <MapView.Marker key={index}
+            {thoughts.map((thought,index) => {
+            return(
+            <View key={index}>
+
+            <Marker 
             coordinate={{latitude: parseFloat(thought.latitude),
-            longitude: parseFloat(thought.longitude)}}
-            description = {thought.title + " " + thought.description } />
-          ))}
+            longitude: parseFloat(thought.longitude)}}>
+                <Callout tooltip onPress={()=> { setLiked(!liked); thought.liked = thoughts.liked === "0"?  "1" : "0"}} >
+                    <View style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
+                        <Text>
+                            {thought.title + " " + thought.description}
+                        </Text>
+                    </View>
+                </Callout>
+            </Marker>
+            <Circle style = {{display: thought.liked !== "0"? 'flex': 'none'}}
+                    center={{latitude: parseFloat(thought.latitude),
+                    longitude: parseFloat(thought.longitude)}}
+                    radius = {parseInt(thought.radius) }
+                />
+            </View>
+            );})}
             </MapView>
         </View>
      );
