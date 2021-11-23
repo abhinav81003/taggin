@@ -1,5 +1,5 @@
 import React, {useState, useEffect,useReducer} from 'react';
-import { Platform, SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable } from 'react-native';
+import { Button,Platform, SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,8 +10,7 @@ import { useDeviceOrientation, useDimensions } from '@react-native-community/hoo
 import MapView from 'react-native-maps';
 import { Marker, Callout, Circle, CalloutSubview} from 'react-native-maps';
 import axios from 'axios';
-import * as Location from 'expo-location';
-  
+import * as Location from 'expo-location';  
 
 var mapStyles = [
     {
@@ -197,6 +196,7 @@ const Home = ({navigation}) => {
     //post stuff
     const [posts,setPosts] = useState([{}]);
     //let thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ];
+    
     //refreshing the page
     const [thoughts,setThoughts] = useState([])
     const [refreshing, setRefreshing] = useState(false);
@@ -204,13 +204,11 @@ const Home = ({navigation}) => {
       setRefreshing(true);
       wait(2000).then(() => setRefreshing(false));
     }, []);
+
     useEffect(() => {
       setRefreshing(true);
-      wait(2000).then(() => setRefreshing(false));
-      }, []);
-    useEffect(() => {
-        axios.get('https://fierce-mountain-79115.herokuapp.com/posts')
-        .then( function(response){
+      axios.get('https://fierce-mountain-79115.herokuapp.com/posts')
+        .then(function(response){
             console.log(response.data);
             setThoughts(response.data);
         })
@@ -218,8 +216,30 @@ const Home = ({navigation}) => {
             // handle error
             console.log(error);
         }) ;
-    })
+      wait(2000).then(() => setRefreshing(false));
+      }, []);
+    
+    useEffect(() => {
+        axios.get('https://fierce-mountain-79115.herokuapp.com/posts')
+        .then(function(response){
+            console.log(response.data);
+            setThoughts(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+    },[])
     const handleRefresh = () => {
+        axios.get('https://fierce-mountain-79115.herokuapp.com/posts')
+        .then(function(response){
+            console.log(response.data);
+            setThoughts(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
         onRefresh();
     }
     const handleUpload = () => {
@@ -236,8 +256,8 @@ const Home = ({navigation}) => {
         <View>
              <MapView style={styles.map} region={{longitude: location != null ? location.coords.longitude: 0,
                         latitude: location != null ? location.coords.latitude: 0,
-                        longitudeDelta: 0.02,
-                        latitudeDelta: 0.02}} 
+                        longitudeDelta: 0.002,
+                        latitudeDelta: 0.002}} 
                         provider={MapView.PROVIDER_GOOGLE}
                         customMapStyle={mapStyles}>
            
@@ -252,6 +272,13 @@ const Home = ({navigation}) => {
                         <Text>
                             {thought.title + " " + thought.description}
                         </Text>
+                        <Text>
+                            {"Posted at: " + thought.date + " " + thought.time}
+                        </Text>
+                        <Text>
+                            {"Likes " + thought.likes}
+                        </Text>
+                        {/* <Button onPress={() => console.log("like1")} title ={"Like"}/>  */}
                         <TouchableOpacity>
 
                         </TouchableOpacity>
