@@ -10,9 +10,7 @@ import { useDeviceOrientation, useDimensions } from '@react-native-community/hoo
 import MapView from 'react-native-maps';
 import { Marker, Callout, Circle, CalloutSubview} from 'react-native-maps';
 import axios from 'axios';
-import Geolocation from '@react-native-community/geolocation';
 
-Geolocation.getCurrentPosition(info => console.log(info));
 // import Geolocation from 'react-native-geolocation-service';
 
 // RNLocation.configure({
