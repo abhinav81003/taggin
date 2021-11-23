@@ -11,7 +11,7 @@ import { useDeviceOrientation, useDimensions } from '@react-native-community/hoo
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 
-const thoughts = [ { title: "Village dining sucks", description: "#usc", latitude: 34.0256, longitude: -118.593 }]
+const thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
 const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
     const styles = StyleSheet.create({
@@ -24,15 +24,15 @@ const Home = ({navigation}) => {
         <View>
              <MapView style={styles.map} region={{longitude: -118.2850,
                         latitude: 34.0256,
-                        longitudeDelta: 0.02,
-                        latitudeDelta: 0.02}}>
-            <MapView.Marker 
-                coordinate={{latitude: 34.0256,
-                longitude: -118.2850,}}
-                title = {"Fuck UCLA"}
-                description ={"#fucla"}
-                image = {style={height: 2,width:2}, source = require('../assets/thought.png')}
-                />
+                        longitudeDelta: 0.0250,
+                        latitudeDelta: 0.0252}}>
+           
+            {thoughts.map((thought,index) => (
+            <MapView.Marker key={index}
+            coordinate={{latitude: parseFloat(thought.latitude),
+            longitude: parseFloat(thought.longitude)}}
+            description = {thought.title + " " + thought.description } />
+          ))}
             </MapView>
         </View>
      );
