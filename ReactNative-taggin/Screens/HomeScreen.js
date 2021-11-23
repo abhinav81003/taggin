@@ -243,14 +243,12 @@ const Home = ({navigation}) => {
         onRefresh();
     }
     const handleUpload = () => {
-        navigation.navigate("Upload");
+        navigation.navigate("Upload",{loc:location});
     }
     const handleProfilePress = () => {
         navigation.navigate("Profile");
     }
    
-
-
     return ( 
     
         <View>

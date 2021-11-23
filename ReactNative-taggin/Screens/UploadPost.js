@@ -4,7 +4,7 @@ import axios from 'axios';
 import colors from '../assets/colors';
 import * as Location from 'expo-location';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation,route}) => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //all the variables about data to be posted
     const [title, setTitle] =useState("");
@@ -31,7 +31,7 @@ const Profile = ({navigation}) => {
         forceUpdate();
     }
     //getting location
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState(route.params.loc);
     const [errorMsg, setErrorMsg] = useState(null);
     useEffect(() => {
         (async () => {
