@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,17 +8,11 @@ import colors from '../assets/colors';
 import Slider from '@react-native-community/slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
-<<<<<<< HEAD
 import MapView from 'react-native-maps';
-import { Marker, Callout, Circle} from 'react-native-maps';
+import { Marker, Callout, Circle, CalloutSubview} from 'react-native-maps';
+import axios from 'axios';
 
 var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
-=======
-import MapView, { Callout } from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-
-const thoughts = [ { "title": "Village dining sucks yuvhycvftvhfgv yfvdtyfav fyvsadfyasdf fas df ads fda ", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" }, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848" },{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950" } ]
->>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
 
 var mapStyles = [
     {
@@ -120,7 +114,10 @@ var mapStyles = [
     {}
 ]
 
-<<<<<<< HEAD
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const Home = ({navigation}) => {
     const {width, height} = useDimensions().window;
     const [liked,setLiked] = useState(false);
@@ -131,44 +128,51 @@ const Home = ({navigation}) => {
         },
         thought: {
             borderRadius: 10,
-            minHeight: 80,
-            maxWidth: 300,
+            minHeight: 300,
+            minWidth: 300,
             padding: 20,
             justifyContent: 'center',
             alignItems: 'center',
-            textAlign: 'center'
-=======
-
-const Home = ({navigation}) => {
-    const {width, height} = useDimensions().window;
-    const [liked, setLiked] = useState(false);
-    const styles = StyleSheet.create({
-        map: {width: width,
-        height: height,
         },
-        thought: {
-            borderRadius: 10,
-            minHeight: 20,
-            maxWidth: 200,
-            backgroundColor: "white"
->>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
+        refreshButton: {
+            position: 'absolute',
+            bottom: 50,
+            right:30,
+            height: 40,
+            width: 40,
+            backgroundColor: "white",
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 50
+        },
+        refreshIcon: {
+            width: 20,
+            height: 20
         }
-
     })
+    const [posts,setPosts] = useState([{}]);
     const BottomTabs = createBottomTabNavigator();
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      wait(2000).then(() => setRefreshing(false));
+    }, []);
+    useEffect(() => {
+      setRefreshing(true);
+      wait(2000).then(() => setRefreshing(false));
+      }, []);
+
+    useEffect(() => {
+        axios.get('https://fierce-mountain-79115.herokuapp.com/post')
+    })
     return ( 
         <View>
-<<<<<<< HEAD
-=======
-           
->>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
              <MapView style={styles.map} region={{longitude: -118.2850,
                         latitude: 34.0256,
                         longitudeDelta: 0.02,
                         latitudeDelta: 0.02}} 
                         provider={MapView.PROVIDER_GOOGLE}
                         customMapStyle={mapStyles}>
-<<<<<<< HEAD
            
             {thoughts.map((thought,index) => {
             return(
@@ -178,11 +182,14 @@ const Home = ({navigation}) => {
             coordinate={{latitude: parseFloat(thought.latitude),
             longitude: parseFloat(thought.longitude)}}>
                 <Callout tooltip onPress={()=> { setLiked(!liked); thought.liked = thoughts.liked === "0"?  "1" : "0"}} >
-                    <View style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
+                    <CalloutSubview style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
                         <Text>
                             {thought.title + " " + thought.description}
                         </Text>
-                    </View>
+                        <TouchableOpacity>
+
+                        </TouchableOpacity>
+                    </CalloutSubview>
                 </Callout>
             </Marker>
             <Circle style = {{display: thought.liked !== "0"? 'flex': 'none'}}
@@ -192,27 +199,10 @@ const Home = ({navigation}) => {
                 />
             </View>
             );})}
-=======
-            {thoughts.map((thought,index) => {
-            return(
-            <Marker key={index}
-            coordinate={{latitude: parseFloat(thought.latitude),
-            longitude: parseFloat(thought.longitude)}} >  
-                <Callout tooltip >
-                    <View style= {{zIndex: 1}}>
-                    <View  style={styles.thought}>
-                        <Text> {thought.title +  " " + thought.description}  </Text>
-                    </View>
-                    <TouchableOpacity onPress= { ()=>  { console.log("Hi"); setLiked(!liked)}} style={{ width: 10, height : 10, backgroundColor: liked? "red" : "white" }}>
-
-                    </TouchableOpacity>
-                    </View>
-                </Callout>
-            </Marker>
-            );})}
-
->>>>>>> b1ed0243a8478390d12530c39a8a5e4fb4031a87
             </MapView>
+            <TouchableOpacity onPress={()=> onRefresh()} style ={styles.refreshButton}>
+                        <Image style={styles.refreshIcon} source={require('../assets/refresh.png')}/>
+            </TouchableOpacity>
         </View>
      );
 }

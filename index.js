@@ -13,6 +13,7 @@ app.use(cors());
 
 
 const WaitlistModel = require("./models/Waitlist")
+const PostModel = require("./models/Posts")
 
 app.post("/insert", async (req,res)=>{
     const email = req.body.email
@@ -28,7 +29,15 @@ app.get("/admin", (req,res) => {
     const emails = WaitlistModel.find();
     console.log(emails);
 })
+app.get("/posts", async (req,res) => {
+    try { 
+        const posts = await PostModel.find()
+        res.json(posts)
+    }catch(err){
+        console.log(err);
+    }
 
+})
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('./client/build'))
     app.get('*', (req, res) => {
