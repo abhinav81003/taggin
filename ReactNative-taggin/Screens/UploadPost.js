@@ -4,7 +4,7 @@ import axios from 'axios';
 import colors from '../assets/colors';
 import * as Location from 'expo-location';
 
-const Profile = ({navigation,route}) => {
+const UploadPost = ({navigation,route}) => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //all the variables about data to be posted
     const [title, setTitle] =useState("");
@@ -158,4 +158,4 @@ const styles = StyleSheet.create({
         margin: 20,
     },
 })
-export default Profile;
+export default UploadPost;
