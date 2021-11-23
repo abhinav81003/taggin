@@ -5,5 +5,6 @@ export default {
     third : "#000f89",
     fourth: "#FFFFFF",
     fifth: "#426fff",
-    sixth: "#b9adff"
+    sixth: "#b9adff",
+    inputBox: "#ebebeb"
 }

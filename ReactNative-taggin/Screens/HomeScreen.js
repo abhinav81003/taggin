@@ -1,18 +1,32 @@
-import React, {useState, useEffect} from 'react';
-import { SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable } from 'react-native';
+import React, {useState, useEffect,useReducer} from 'react';
+import { Platform, SafeAreaView, StyleSheet, TextInput, TextInputComponent,ScrollView, TouchableOpacity, View, Text, Image, Pressable } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../assets/colors';
-import Slider from '@react-native-community/slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDeviceOrientation, useDimensions } from '@react-native-community/hooks';
 import MapView from 'react-native-maps';
 import { Marker, Callout, Circle, CalloutSubview} from 'react-native-maps';
 import axios from 'axios';
+import Geolocation from '@react-native-community/geolocation';
 
-var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
+Geolocation.getCurrentPosition(info => console.log(info));
+// import Geolocation from 'react-native-geolocation-service';
+
+// RNLocation.configure({
+//     distanceFilter: 5.0
+// })
+   
+// RNLocation.requestPermission({
+//     ios: "whenInUse",
+//     android: {
+//       detail: "coarse"
+//     }
+// })
+
+  
 
 var mapStyles = [
     {
@@ -136,22 +150,48 @@ const Home = ({navigation}) => {
         },
         refreshButton: {
             position: 'absolute',
-            bottom: 50,
+            bottom: 60,
             right:30,
-            height: 40,
-            width: 40,
+            height: 42,
+            width: 42,
             backgroundColor: "white",
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 50
         },
-        refreshIcon: {
-            width: 20,
-            height: 20
+        Icon: {
+            width: 26,
+            height: 26
+        },
+        uploadButton: {
+            position: 'absolute',
+            bottom: 120,
+            right:30,
+            height: 42,
+            width: 42,
+            backgroundColor: "white",
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 50
+        },
+        profileButton: {
+            position: 'absolute',
+            top: 60,
+            right: 30,
+            height: 42,
+            width: 42,
+            backgroundColor: "white",
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 50
         }
     })
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+    //post stuff
     const [posts,setPosts] = useState([{}]);
-    const BottomTabs = createBottomTabNavigator();
+    var thoughts = [ { "title": "Village dining sucks", "description": "#usc", "latitude": "34.02007", "longitude": "-118.2878" , "liked": "0", "radius": "100"}, { "title": "Parkside is the best", "description": "#parkside", "latitude":  "34.02569", "longitude": "-118.2848", "liked": "0", "radius": "200"},{ "title": "Just gave my midterm, suffice to say, I'm failing this shit ", "description": "#CS", "latitude":  "34.02059", "longitude": "-118.2950","liked": "0", "radius": "1000"} ]
+   
+    //refreshing the page
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
@@ -161,10 +201,21 @@ const Home = ({navigation}) => {
       setRefreshing(true);
       wait(2000).then(() => setRefreshing(false));
       }, []);
-
     useEffect(() => {
-        axios.get('https://fierce-mountain-79115.herokuapp.com/post')
+        axios.get('https://fierce-mountain-79115.herokuapp.com/posts');
     })
+    const handleRefresh = () => {
+        onRefresh();
+    }
+    const handleUpload = () => {
+        navigation.navigate("Upload");
+    }
+    const handleProfilePress = () => {
+        navigation.navigate("Profile");
+    }
+   
+
+
     return ( 
         <View>
              <MapView style={styles.map} region={{longitude: -118.2850,
@@ -177,22 +228,22 @@ const Home = ({navigation}) => {
             {thoughts.map((thought,index) => {
             return(
             <View key={index}>
-
             <Marker 
-            coordinate={{latitude: parseFloat(thought.latitude),
-            longitude: parseFloat(thought.longitude)}}>
-                <Callout tooltip onPress={()=> { setLiked(!liked); thought.liked = thoughts.liked === "0"?  "1" : "0"}} >
-                    <CalloutSubview style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
+                onPress = { () => {HandleMarkerPress(index);}}
+                coordinate={{latitude: parseFloat(thought.latitude),
+                longitude: parseFloat(thought.longitude)}}>
+                <Callout  onPress={()=> { setLiked(!liked); forceUpdate();}} >
+                    <View style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
                         <Text>
                             {thought.title + " " + thought.description}
                         </Text>
                         <TouchableOpacity>
 
                         </TouchableOpacity>
-                    </CalloutSubview>
+                    </View>
                 </Callout>
             </Marker>
-            <Circle style = {{display: thought.liked !== "0"? 'flex': 'none'}}
+            <Circle 
                     center={{latitude: parseFloat(thought.latitude),
                     longitude: parseFloat(thought.longitude)}}
                     radius = {parseInt(thought.radius) }
@@ -200,8 +251,14 @@ const Home = ({navigation}) => {
             </View>
             );})}
             </MapView>
-            <TouchableOpacity onPress={()=> onRefresh()} style ={styles.refreshButton}>
-                        <Image style={styles.refreshIcon} source={require('../assets/refresh.png')}/>
+            <TouchableOpacity onPress={()=> handleRefresh()} style ={styles.refreshButton}>
+                        <Image style={styles.Icon} source={require('../assets/refresh.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=> handleUpload()} style ={styles.uploadButton}>
+                        <Image style={styles.Icon} source={require('../assets/thought.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=> handleProfilePress()} style ={styles.profileButton}>
+                        <Image style={styles.Icon} source={require('../assets/profile.png')}/>
             </TouchableOpacity>
         </View>
      );

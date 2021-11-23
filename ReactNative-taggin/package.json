@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/hooks": "^2.8.1",
     "@react-native-community/slider": "4.1.7",
     "@react-native-picker/picker": "2.1.0",
@@ -20,8 +21,10 @@
     "expo-status-bar": "~1.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-native": "0.64.3",
+    "react-native": "^0.64.3",
+    "react-native-geolocation-service": "^5.3.0-beta.3",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-location": "^2.5.0",
     "react-native-maps": "0.28.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
