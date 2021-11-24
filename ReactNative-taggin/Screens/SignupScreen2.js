@@ -1,32 +1,24 @@
 import React, {useState} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { KeyboardAvoidingView, Alert, SafeAreaView, Pressable, Keyboard, StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Image } from 'react-native';
+import { KeyboardAvoidingView, Alert, SafeAreaView,ActivityIndicator, Pressable, Keyboard, StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Image } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import colors from '../assets/colors';
-
+import axios from 'axios';
 const SignupScreen2 = ({navigation}) => {
 
+const [name, setName] = useState('')
 const [email, setEmail] = useState('');
 const [username, setUSername] = useState('');
 const [password, setPassword] = useState('');
 const [confirmPassword, setConfirmPassword] = useState('')
+const [loading,setLoading] = useState(false)
 
 //checking if user exists and showing an error if it does
-const handleEmailChecks = (email) => {
-    const isEmailInUse = false;
-    //query the database to find the email, if it exists set isEmailInUse to true
-    return isEmailInUse;
-}
-const handleUsernameChecks = (username) => {
-    const isUsernameInUse = false;
-    //query the database to find if the username is in use
-    return isUsernameInUse;
-}
+
 //
 const handleContinuePress = () => {
+    setLoading(true);
     //checking for empty fields
-    const emailIsInUse = handleEmailChecks(email);
-    const usernameIsInUse = handleUsernameChecks(username);
     if (email==="" || username==="" || password==="" || confirmPassword === "") {
         if (Platform.OS === 'web'){
             alert("Kindly fill all the fields to continue")
@@ -41,38 +33,8 @@ const handleContinuePress = () => {
                 ]
             )
         }
-    } else if (emailIsInUse) {
-        if (Platform.OS === 'web'){
-            alert("An account is already registered with the same email address")
-        }else {
-            Alert.alert(
-                "Email Already In Use",
-                "An account is already registered with the same email address",
-                [
-                    {
-                        text: "Enter Email Again",
-                        
-                    }
-                ]
-            )
-        }
-    }else if (usernameIsInUse) {
-        //Set up with backend database
-        if (Platform.OS === 'web'){
-            alert("This username has already been used by someone else")
-        }else {
-            Alert.alert(
-            "Invalid Username",
-            "This username has already been used by someone else ",
-                [
-                    {
-                        text: "Set a new username",
-                        
-                    }
-                ]
-            )
-        }
-    }else if (confirmPassword!=password){
+        setLoading(false);
+    } else if (confirmPassword!=password){
         if (Platform.OS === 'web'){
             alert("Passwords Don't Match")
         }else {
@@ -87,23 +49,22 @@ const handleContinuePress = () => {
                 ]
             )
         }
-    }else if (password.length<8){
-        if (Platform.OS === 'web'){
-            alert("Please make sure that the password has atleast 8 characters")
-        }else {
-            Alert.alert(
-                "Passwords Too Short",
-                "Please make sure that the password has atleast 8 characters",
-                [
-                    {
-                        text: "Edit Password",
-                        onPress: () => console.log('Password error')
-                    }
-                ]
-            )
-        }
+        setLoading(false);
     }else {
-        navigation.navigate("Home");
+        axios.post("https://fierce-mountain-79115.herokuapp.com/register",
+            {email: email, password: password, userID: username, name: name, interests: []}
+        ).then(function(res){
+            if(res.data.status != 'error'){
+                navigation.navigate("Interests");
+                setLoading(false);
+            }else{
+                Alert.alert(
+                    res.data.error
+                )
+                setLoading(false);
+            }
+        })
+        
     }
 }
 
@@ -216,13 +177,12 @@ const styles = StyleSheet.create({
         color: colors.fourth,
     },
     continueButton: {
-        width: "35%",
+        width: "42%",
         justifyContent: "center",
         alignItems: "center",
-       
         borderRadius: 100,
         borderTopWidth: 1,
-        height: 40,
+        height: 42,
         marginBottom: 20,
         shadowColor: 'grey',
         shadowRadius: 10, 
@@ -268,7 +228,7 @@ const styles = StyleSheet.create({
                         </Text>
                         <Text 
                             style = {styles.headerText} >
-                            Welcome to Connex. Create a free account to begin the search for your own community.
+                            Welcome to Taggin. Create a free account to begin sharing your thoughts.
                         </Text>
                         <Text 
                             style = {styles.linkText} 
@@ -277,6 +237,22 @@ const styles = StyleSheet.create({
                         </Text>
                     </View>
                     <View styles = { styles.details }>
+                        <View>
+                            <Text 
+                                style={styles.label} >
+                                Full Name: 
+                            </Text>
+                            <TextInput 
+                                enablesReturnKeyAutomatically = {true}
+                                returnKeyType="next"
+                                onChangeText = { name => setName(name) }
+                                defaultValue = {name}
+                                style={styles.inputText} 
+                                textContentType='name'   // Only for iOS
+                                autoCompleteType="name" // Only for Android
+                                autoCapitalize='none'
+                                placeholder="Your Actual Name" />
+                        </View>
                         <View>
                             <Text 
                                 style={styles.label} >
@@ -353,7 +329,10 @@ const styles = StyleSheet.create({
                         backgroundColor: pressed ? colors.third : colors.secondary,},
                         styles.continueButton,]}
                         onPress={() => { handleContinuePress()}}>
-                        <Text style={styles.buttonText}>Continue</Text>
+                        <Text style={[ {display: loading?'none':'flex'}, styles.buttonText]}>
+                            Continue
+                        </Text>
+                        <ActivityIndicator style={{ display: loading? 'flex' : 'none'}} />
                     </Pressable>
                 </SafeAreaView>
             </View>

@@ -9,7 +9,7 @@ import SignupScreen2 from './SignupScreen2';
 const Welcome = ({navigation}) => {
      
 const gotoSignUp =() => {
-    navigation.navigate("Signup 2");
+    navigation.navigate("Signup");
 }
     return ( 
         <View style = {styles.screen}>

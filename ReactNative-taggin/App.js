@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import Welcome from './Screens/Welcome';
 import SignupScreen2 from './Screens/SignupScreen2';
+import SelectInterests from './Screens/SelectInterests';
 import LoginScreen from './Screens/LoginScreen';
 import RootScreen from './Stack Navs/RootScreen';
 
@@ -13,12 +14,12 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRoute="Root" >
+      <Stack.Navigator initialRoute="Signup" >
+      <Stack.Screen name="Signup" component={SignupScreen2} options={{headerShown: false}} />
+      <Stack.Screen name= "Interests" component ={SelectInterests} options={{headerShown: false}} />
       <Stack.Screen name= "Root" component ={RootScreen} options={{headerShown: false}} />
-               <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
-              <Stack.Screen name="Signup 2" component={SignupScreen2} options={{headerShown: false}} />
-              <Stack.Screen name="Login" component={LoginScreen}  options={{headerShown: false}} />
-              
+      <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
+      <Stack.Screen name="Login" component={LoginScreen}  options={{headerShown: false}} />             
       </Stack.Navigator>
     </NavigationContainer>
   );

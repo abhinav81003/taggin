@@ -1,27 +1,23 @@
 import React, {useState,useContext} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { KeyboardAvoidingView, Alert, SafeAreaView, Pressable, Keyboard, StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Image } from 'react-native';
+import { KeyboardAvoidingView, Alert, SafeAreaView, Pressable, Keyboard, StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import colors from '../assets/colors';
 import axios from 'axios';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const LoginScreen = ({navigation}) => {
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    
-    //checking if user exists and showing an error if it does
-    const handleEmailChecks = (email) => {
-        const isEmailInUse = false;
-        //query the database to find the email, if it exists set isEmailInUse to true
-        return isEmailInUse;
-    }
-    //
+    const [viewPassword, setViewPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const handleContinuePress = () => {
+        setLoading(true);
         //checking for empty fields
-        const emailIsInUse = handleEmailChecks(email);
-        if (email==="" || password==="") {
+        if (username === "" || password==="") {
+            setLoading(false);
             if (Platform.OS === 'web'){
                 alert("Kindly fill all the fields to continue")
             }else {
@@ -35,48 +31,20 @@ const LoginScreen = ({navigation}) => {
                     ]
                 )
             }
-        } else if (emailIsInUse) {
-            if (Platform.OS === 'web'){
-                alert("An account is already registered with the same email address")
-            }else {
-                Alert.alert(
-                    "Email Already In Use",
-                    "An account is already registered with the same email address",
-                    [
-                        {
-                            text: "Enter Email Again",
-                            
-                        }
-                    ]
-                )
-            }
-        }else if (password.length<8){
-            if (Platform.OS === 'web'){
-                alert("Please make sure that the password has atleast 8 characters")
-            }else {
-                Alert.alert(
-                    "Passwords Too Short",
-                    "Please make sure that the password has atleast 8 characters",
-                    [
-                        {
-                            text: "Edit Password",
-                            onPress: () => console.log('Password error')
-                        }
-                    ]
-                )
-            }
-        }else {
-            if (Platform.OS === 'web'){
-            }else {
-                axios.post("https://fierce-mountain-79115.herokuapp.com/insert", 
-                {email: email, phone: password}
-                ).then(function() {
-				    navigation.navigate('Home');
-			    })
-                .catch(function () {
-                    alert("Could not submit email. Please try again");
-                });
-            }
+        } else {
+            axios.post("https://fierce-mountain-79115.herokuapp.com/login", 
+            {username: username, password: password}
+            ).then(function(res) {
+                setLoading(false);
+                if(res.data.status != 'error'){
+                    //put the token in local storage
+                    navigation.navigate("Root",{username: username});
+                }else {
+                    Alert.alert(
+                        res.data.error
+                    )
+                }
+            })
         }
     }
 const viewConstants = {
@@ -165,6 +133,7 @@ const styles = StyleSheet.create({
         borderWidth: viewConstants.textBoxBorderWidth,
         borderColor: 'white',
         borderWidth: 1,
+        width: "100%",
         backgroundColor: colors.fourth,
         borderRadius: viewConstants.textBoxBorderRadius,
         textAlign: 'center',
@@ -219,10 +188,18 @@ const styles = StyleSheet.create({
             },
         }),
     },
+    passwordAndEye: {
+        flexDirection: 'row',
+    },
+    eye:{
+        position: 'absolute',
+        right: 25,
+        top : 2
+    }
 })
     return ( 
         <View style={styles.screenBackground}>
-             <TouchableOpacity onPress={()=> navigation.navigate("Signup 2")} style={styles.backbutton}>
+             <TouchableOpacity onPress={()=> navigation.navigate("Signup")} style={styles.backbutton}>
                         <Image style={{ marginLeft:'10%', marginTop:'15%', width: 40, height: 40, tintColor: colors.primary}} source={require("../assets/images/back.png")}/>
             </TouchableOpacity>
              <View style = {styles.header}>
@@ -232,41 +209,40 @@ const styles = StyleSheet.create({
                         </Text>
                         <Text 
                             style = {styles.headerText} >
-                            Welcome back to Connex. Enter your details to get back to your community.
+                            Welcome back. Enter your details to start Taggin' again.
                         </Text>
                         <Text 
                             style = {styles.linkText} 
-                            onPress={() => navigation.navigate("Signup 2")} >
+                            onPress={() => navigation.navigate("Signup")} >
                             Don't have an account?
                         </Text>
                     </View>
              <View>
                     <Text 
                         style={styles.label}>
-                        Email: 
+                        Username: 
                     </Text>
                     <TextInput
                         style={styles.inputText} 
-                        onChangeText = { email => setEmail(email) }
-                        defaultValue = {email}
+                        onChangeText = { username => setUsername(username) }
+                        defaultValue = {username}
                         enablesReturnKeyAutomatically = {true}
-                        keyboardType = 'email-address'     // Works on all platforms
-                        textContentType = 'emailAddress'  // Only for iOS
-                        autoCompleteType='email'         // Only for Android
+                        textContentType = 'username'  // Only for iOS
+                        autoCompleteType = 'username'         // Only for Android
                         autoCapitalize='none'           // Works on all platforms
                         returnKeyType="next"
-                        // onSubmitEditing={() => { this.secondTextInput.focus() }}
-                        placeholder="Enter Your Email ID" />
+                        placeholder="Enter Your Username" />
                 </View>
             <View>
                 <Text 
                     style={styles.label}>
                     Password: 
                 </Text>
+                <View style ={styles.passwordAndEye}>
                 <TextInput 
                     enablesReturnKeyAutomatically = {true}
-                    secureTextEntry={true} 
-                    returnKeyType="next"
+                    secureTextEntry={ !viewPassword} 
+                    returnKeyType='done'
                     onChangeText = { password => setPassword(password) }
                     defaultValue = {password}
                     textContentType = "newPassword" 
@@ -274,12 +250,17 @@ const styles = StyleSheet.create({
                     style={styles.inputText} 
                     placeholder="Enter your Password" 
                     autoCapitalize='none'/>
+                <TouchableOpacity onPress={()=> setViewPassword(!viewPassword)}> 
+                    <Icon style={styles.eye} name= { viewPassword ? "eye" : "eye-off"} size={30}/>
+                </TouchableOpacity>
+                 </View>
             </View>
             <Pressable style={({pressed}) => [{
                         backgroundColor: pressed ? colors.third : colors.secondary,},
                         styles.continueButton,]}
-                        onPress={() => { handleContinuePress()}}>
-                        <Text style={styles.buttonText}>Continue</Text>
+                        onPress={() => { setLoading(true); handleContinuePress()}}>
+                <Text style={[{display: loading? 'none' : 'flex'},styles.buttonText]}>Login</Text>
+                <ActivityIndicator style={{display: loading? 'flex':'none'}} />
             </Pressable>
         </View>
      );

@@ -9,9 +9,9 @@ const UploadPost = ({navigation,route}) => {
     //all the variables about data to be posted
     const [title, setTitle] =useState("");
     const [description, setDescription] = useState("");
-    const [userID,setUserID] = useState(""); //fetch from user's data
+    const [userID,setUserID] = useState(route.params.username); //fetch from user's data
     //temporary user selection
-    const users = ["monkeysnest", "danielheeee", "smellysocks"]
+    const users = [route.params.username]
     const [selectedUser, setSelectedUser] = useState([false,false,false])
     const HandleSelectingUser = (index) => {
         var selections = selectedUser;

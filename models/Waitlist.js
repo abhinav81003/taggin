@@ -7,9 +7,6 @@ const WaitlistSchema = new mongoose.Schema({
     }
 })
 
-const PostSchema = new mongoose.Schema({
-    
-})
 
 const Waitlist = mongoose.model("Waitlist",WaitlistSchema);
 module.exports = Waitlist

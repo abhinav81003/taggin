@@ -8,15 +8,16 @@ import Profile from '../Screens/Profile';
 import UploadPost from '../Screens/UploadPost'
 
 const RootStack = createStackNavigator();
-const RootScreen = () => {
+const RootScreen = ({navigation, route}) => {
+    const username = route.params.username
     return ( 
         <RootStack.Navigator>
             <RootStack.Group>
-                <RootStack.Screen  options={{headerShown: false}} name="Home" component={HomeScreen} />
-                <RootStack.Screen name="Profile" component={Profile} />
+                <RootStack.Screen  initialParams={ {username: username}} options={{headerShown: false}} name="Home" component={HomeScreen} />
+                <RootStack.Screen  initialParams={ {username: username}}  name="Profile" component={Profile} />
             </RootStack.Group>
             <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-                <RootStack.Screen name="Upload" component={UploadPost} />
+                <RootStack.Screen  initialParams={ {username: username}} name="Upload" component={UploadPost} />
             </RootStack.Group>
         </RootStack.Navigator>
      );

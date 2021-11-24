@@ -116,7 +116,7 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
     const {width, height} = useDimensions().window;
     const [liked,setLiked] = useState(false);
     const styles = StyleSheet.create({
@@ -171,6 +171,7 @@ const Home = ({navigation}) => {
         }
     })
     //location getting
+    const username = route.params.username;
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     useEffect(() => {
@@ -243,10 +244,10 @@ const Home = ({navigation}) => {
         onRefresh();
     }
     const handleUpload = () => {
-        navigation.navigate("Upload",{loc:location});
+        navigation.navigate("Upload",{loc:location, username: username});
     }
     const handleProfilePress = () => {
-        navigation.navigate("Profile");
+        navigation.navigate("Profile", {username: username});
     }
    
     return ( 
@@ -267,6 +268,9 @@ const Home = ({navigation}) => {
                 longitude: parseFloat(thought.longitude)}}>
                 <Callout  onPress={()=> { setLiked(!liked); forceUpdate();}} >
                     <View style={[styles.thought,{backgroundColor: liked? 'red': 'white'}]}>
+                        <Text>
+                            {thought.userID}
+                        </Text>
                         <Text>
                             {thought.title + " " + thought.description}
                         </Text>
