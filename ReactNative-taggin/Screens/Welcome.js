@@ -29,9 +29,9 @@ const Welcome = ({navigation}) => {
     const failed = async () => {
         await setLoading(false);
     }
+
     useEffect( async () => {
         const myCredentials = await getMyUserData()
-        console.log(myCredentials)
         if(myCredentials != null){
             axios.post("https://fierce-mountain-79115.herokuapp.com/stayLogin", {myCredentials})
             .then(function(res){
@@ -44,7 +44,6 @@ const Welcome = ({navigation}) => {
         }else{
             setLoading(false);
         }
-        failed();
     },[])
 
     const gotoSignUp =() => {
