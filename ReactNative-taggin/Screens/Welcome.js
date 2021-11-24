@@ -7,7 +7,6 @@ import SignupScreen2 from './SignupScreen2';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
-
 const myLoginDetailsStorageKey = "loginCred";
 
 const getMyUserData = async () => {
@@ -27,8 +26,12 @@ const getMyUserData = async () => {
 const Welcome = ({navigation}) => {
      
     const [loading, setLoading] = useState(true);
+    const failed = async () => {
+        await setLoading(false);
+    }
     useEffect( async () => {
         const myCredentials = await getMyUserData()
+        console.log(myCredentials)
         if(myCredentials != null){
             axios.post("https://fierce-mountain-79115.herokuapp.com/stayLogin", {myCredentials})
             .then(function(res){
@@ -38,7 +41,10 @@ const Welcome = ({navigation}) => {
                     setLoading(false);
                 }
             })
+        }else{
+            setLoading(false);
         }
+        failed();
     },[])
 
     const gotoSignUp =() => {
@@ -49,7 +55,7 @@ const Welcome = ({navigation}) => {
             <SafeAreaView style = {styles.panel}>
                 <Image source={require("../assets/images/logo.png")} style = {styles.logo}/>
                 <View style= {styles.textPanel}>
-                    <Text style={styles.title}> Taggin' </Text>
+                    <Text style={styles.title}> #Taggin' </Text>
                     <TouchableOpacity onPress={ () => gotoSignUp()} style={[ {display: loading? 'none' : 'flex'},styles.button]}> 
                         <Text style={[ {display: loading? 'none' : 'flex'},styles.buttonText]}> Get Started </Text>
                     </TouchableOpacity>

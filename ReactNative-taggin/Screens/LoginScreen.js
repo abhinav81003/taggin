@@ -16,7 +16,7 @@ const LoginScreen = ({navigation}) => {
 
     const saveMyLoginInfo = async (myUserInfo) => {
         try {
-          await AsyncStorage.setItem("rat", myUserInfo)
+          await AsyncStorage.setItem(myLoginDetailsStorageKey, myUserInfo)
         } catch (e) {
             console.log(e)
             Alert.alert(
@@ -48,7 +48,6 @@ const LoginScreen = ({navigation}) => {
             ).then(async function (res) {
                 setLoading(false);
                 if(res.data.status != 'error'){
-                    //put the token in local storage
                     const myUserInfo = res.data.message;
                     await saveMyLoginInfo(myUserInfo);
                     navigation.navigate("Root",{username: username});
