@@ -1,25 +1,57 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, SafeAreaView, View,Image, Text, TouchableOpacity, Pressable } from 'react-native';
 import colors from '../assets/colors';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import SignupScreen2 from './SignupScreen2';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import axios from 'axios';
+
+const myLoginDetailsStorageKey = "loginCred";
+
+const getMyUserData = async () => {
+    try {
+      const value = await AsyncStorage.getItem(myLoginDetailsStorageKey)
+      if(value !== null) {
+        return value
+      }
+      return null
+    } catch(e) {
+      console.log(e)
+      return null
+    }
+  }
+  
 
 const Welcome = ({navigation}) => {
      
-const gotoSignUp =() => {
-    navigation.navigate("Signup");
-}
+    const [loading, setLoading] = useState(true);
+    useEffect( async () => {
+        const myCredentials = await getMyUserData()
+        if(myCredentials != null){
+            axios.post("https://fierce-mountain-79115.herokuapp.com/stayLogin", {myCredentials})
+            .then(function(res){
+                if(res.data.status !='error'){
+                    navigation.navigate("Root",{username: res.data.username})
+                }else{
+                    setLoading(false);
+                }
+            })
+        }
+    },[])
+
+    const gotoSignUp =() => {
+        navigation.navigate("Signup");
+    }
     return ( 
         <View style = {styles.screen}>
             <SafeAreaView style = {styles.panel}>
                 <Image source={require("../assets/images/logo.png")} style = {styles.logo}/>
                 <View style= {styles.textPanel}>
-                    <Text style={styles.title}>Connex </Text>
-                    <Text style={styles.subtitle}>Get connected to the commmunitites you never knew existed. </Text>
-                    <TouchableOpacity onPress={ () => gotoSignUp()} style={styles.button}> 
-                        <Text style={styles.buttonText}> Get Started </Text>
+                    <Text style={styles.title}> Taggin' </Text>
+                    <TouchableOpacity onPress={ () => gotoSignUp()} style={[ {display: loading? 'none' : 'flex'},styles.button]}> 
+                        <Text style={[ {display: loading? 'none' : 'flex'},styles.buttonText]}> Get Started </Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView >
@@ -31,6 +63,7 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: colors.primary,
         flex: 1,
+        alignItems: 'center'
     },
     panel: {
         margin: "10%",

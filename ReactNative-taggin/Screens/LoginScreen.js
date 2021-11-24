@@ -5,14 +5,25 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import colors from '../assets/colors';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = ({navigation}) => {
-
+    
+    const myLoginDetailsStorageKey = "loginCred";
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [viewPassword, setViewPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const saveMyLoginInfo = async (myUserInfo) => {
+        try {
+          await AsyncStorage.setItem("rat", myUserInfo)
+        } catch (e) {
+            console.log(e)
+            Alert.alert(
+                "Couldn't Save Login Info"
+              )
+        }
+      }
     const handleContinuePress = () => {
         setLoading(true);
         //checking for empty fields
@@ -34,10 +45,12 @@ const LoginScreen = ({navigation}) => {
         } else {
             axios.post("https://fierce-mountain-79115.herokuapp.com/login", 
             {username: username, password: password}
-            ).then(function(res) {
+            ).then(async function (res) {
                 setLoading(false);
                 if(res.data.status != 'error'){
                     //put the token in local storage
+                    const myUserInfo = res.data.message;
+                    await saveMyLoginInfo(myUserInfo);
                     navigation.navigate("Root",{username: username});
                 }else {
                     Alert.alert(
