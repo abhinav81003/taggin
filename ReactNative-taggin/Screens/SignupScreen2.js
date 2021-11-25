@@ -55,7 +55,7 @@ const handleContinuePress = () => {
             {email: email, password: password, userID: username, name: name, interests: []}
         ).then(function(res){
             if(res.data.status != 'error'){
-                navigation.navigate("Interests");
+                navigation.navigate("Interests",{username: username});
                 setLoading(false);
             }else{
                 Alert.alert(

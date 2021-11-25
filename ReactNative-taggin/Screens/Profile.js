@@ -10,7 +10,7 @@ const Profile = ({navigation, route}) => {
             <Text style={{textAlign: 'center'}}>
                 {route.params.username}
             </Text>
-            <Button onClick={()=> {navigation.navigate("Login")}} title={"Logout"} />
+            <Button onPress={()=> { console.log("logout"); navigation.navigate("Login")}} title={"Logout"} />
         </SafeAreaView>
      );
 }
