@@ -14,102 +14,143 @@ import * as Location from 'expo-location';
 
 var mapStyles = [
     {
-        "featureType": "road",
+        "featureType": "all",
+        "elementType": "geometry",
         "stylers": [
             {
-                "hue": "#5e00ff"
+                "hue": "#7100ff"
             },
             {
-                "saturation": -79
+                "saturation": "-42"
+            },
+            {
+                "lightness": "21"
+            },
+            {
+                "visibility": "simplified"
             }
         ]
     },
     {
-        "featureType": "poi",
+        "featureType": "all",
+        "elementType": "labels.text",
         "stylers": [
             {
-                "saturation": -78
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "gamma": 0.01
             },
             {
-                "hue": "#6600ff"
+                "lightness": 20
             },
             {
-                "lightness": -47
+                "color": "#6f0087"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "saturation": -31
             },
+            {
+                "lightness": -33
+            },
+            {
+                "weight": 2
+            },
+            {
+                "gamma": 0.8
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
             {
                 "visibility": "off"
             }
         ]
     },
     {
-        "featureType": "road.local",
-        "stylers": [
-            {
-                "lightness": 22
-            }
-        ]
-    },
-    {
         "featureType": "landscape",
+        "elementType": "geometry",
         "stylers": [
-            {
-                "hue": "#eddded"
-            },
-            {
-                "saturation": -11
-            }
-        ]
-    },
-    {},
-    {},
-    {
-        "featureType": "water",
-        "stylers": [
-            {
-                "saturation": -65
-            },
-            {
-                "hue": "#1900ff"
-            },
-            {
-                "lightness": 8
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "stylers": [
-            {
-                "weight": 1.3
-            },
             {
                 "lightness": 30
+            },
+            {
+                "saturation": 30
             }
         ]
     },
     {
-        "featureType": "transit",
+        "featureType": "poi",
+        "elementType": "geometry",
         "stylers": [
             {
-                "visibility": "simplified"
-            },
-            {
-                "hue": "#5e00ff"
-            },
-            {
-                "saturation": -16
+                "saturation": 20
             }
         ]
     },
     {
-        "featureType": "transit.line",
+        "featureType": "poi.park",
+        "elementType": "geometry",
         "stylers": [
             {
-                "saturation": -72
+                "lightness": 20
+            },
+            {
+                "saturation": -20
             }
         ]
     },
-    {}
+    {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "lightness": 10
+            },
+            {
+                "saturation": -30
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "saturation": 25
+            },
+            {
+                "lightness": 25
+            },
+            {
+                "color": "#f0f0f0"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "lightness": -20
+            }
+        ]
+    }
 ]
 
 const wait = (timeout) => {
