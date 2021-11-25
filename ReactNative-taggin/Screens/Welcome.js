@@ -36,6 +36,7 @@ const Welcome = ({navigation}) => {
             axios.post("https://fierce-mountain-79115.herokuapp.com/stayLogin", {myCredentials})
             .then(function(res){
                 if(res.data.status !='error'){
+                    console.log(res.data.username)
                     navigation.navigate("Root",{username: res.data.username})
                 }else{
                     setLoading(false);

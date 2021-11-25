@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../Screens/HomeScreen';
 import Profile from '../Screens/Profile';
 import UploadPost from '../Screens/UploadPost'
+import LoginScreen from '../Screens/LoginScreen'
 
 const RootStack = createStackNavigator();
 const RootScreen = ({navigation, route}) => {
@@ -14,7 +15,8 @@ const RootScreen = ({navigation, route}) => {
         <RootStack.Navigator>
             <RootStack.Group>
                 <RootStack.Screen  initialParams={ {username: username}} options={{headerShown: false}} name="Home" component={HomeScreen} />
-                <RootStack.Screen  initialParams={ {username: username}}  name="Profile" component={Profile} />
+                <RootStack.Screen  initialParams={ {username: username}} name="Profile" component={Profile} />
+                <RootStack.Screen  name="Login" component={LoginScreen} />
             </RootStack.Group>
             <RootStack.Group screenOptions={{ presentation: 'modal' }}>
                 <RootStack.Screen  initialParams={ {username: username}} name="Upload" component={UploadPost} />
